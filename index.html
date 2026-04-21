@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V15 ELITE SUPREME ADMIN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap');
+        :root { --bg: #030303; --surface: #0a0a0c; --border: #1e293b; --primary: #2563eb; }
+        body { background: var(--bg); color: #94a3b8; font-family: 'Space Grotesk', sans-serif; overflow: hidden; }
+        .glass-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .btn-elite { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-elite:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); }
+        .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .nav-item.active { background: rgba(37,99,235,0.1); color: #3b82f6; border-right: 3px solid #3b82f6; }
+        .stat-bar { transition: height 1s ease-out; }
+    </style>
+</head>
+<body class="flex h-screen w-full selection:bg-blue-500/30">
+
+    <aside class="w-20 lg:w-72 border-r border-slate-800 bg-[#050505] flex flex-col transition-all duration-300 z-50">
+        <div class="h-24 flex items-center justify-center lg:justify-start lg:px-8 border-b border-slate-800/50">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20"><i class="fas fa-chess-knight"></i></div>
+            <div class="ml-4 hidden lg:block">
+                <h1 class="text-white text-xl font-black italic leading-tight">V15 <span class="text-blue-500">ADMIN</span></h1>
+                <p class="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Supreme Control</p>
+            </div>
+        </div>
+        
+        <nav class="flex-1 py-8 flex flex-col gap-2 px-2 lg:px-4">
+            <p class="text-[10px] font-bold text-slate-600 uppercase tracking-widest px-4 mb-2 hidden lg:block">Main Menu</p>
+            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="nav-item active w-full flex items-center gap-4 p-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all hover:bg-slate-900">
+                <i class="fas fa-terminal text-lg w-6 text-center"></i> <span class="hidden lg:block">Dashboard</span>
+            </button>
+            <button onclick="switchTab('analytics')" id="tab-analytics" class="nav-item w-full flex items-center gap-4 p-4 rounded-xl text-slate-500 font-bold text-xs uppercase tracking-widest transition-all hover:bg-slate-900">
+                <i class="fas fa-chart-line text-lg w-6 text-center"></i> <span class="hidden lg:block">Analytics</span>
+            </button>
+            <button onclick="switchTab('settings')" id="tab-settings" class="nav-item w-full flex items-center gap-4 p-4 rounded-xl text-slate-500 font-bold text-xs uppercase tracking-widest transition-all hover:bg-slate-900">
+                <i class="fas fa-cogs text-lg w-6 text-center"></i> <span class="hidden lg:block">Sys Settings</span>
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-slate-800">
+            <button onclick="wipeAll()" class="w-full p-4 bg-red-950/30 text-red-500 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] border border-red-500/20 hover:bg-red-600 hover:text-white transition-all group overflow-hidden relative">
+                <span class="relative z-10 flex items-center justify-center gap-2"><i class="fas fa-radiation group-hover:animate-spin"></i> <span class="hidden lg:block">Wipe Database</span></span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden bg-[#030303] relative">
+        
+        <header class="h-24 px-8 flex justify-between items-center border-b border-slate-800/50 glass-card rounded-none shrink-0 z-40">
+            <div>
+                <h2 id="page-title" class="text-2xl font-bold text-white tracking-tight">Command Center</h2>
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-[10px] font-mono text-green-500 uppercase tracking-widest">Network Online & Secured</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-xs font-bold text-white">Administrator</p>
+                    <p class="text-[10px] font-mono text-slate-500">IP: 192.168.1.1 (Encrypted)</p>
+                </div>
+                <div class="w-12 h-12 bg-slate-900 rounded-full border-2 border-slate-700 flex items-center justify-center text-slate-400">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto custom-scroll p-4 lg:p-8">
+            
+            <div id="view-dashboard" class="space-y-8 animate__animated animate__fadeIn">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                    <div class="xl:col-span-1 glass-card p-6 flex flex-col relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 rounded-full blur-3xl"></div>
+                        <h3 class="text-white font-bold text-xs uppercase tracking-widest mb-6 flex items-center gap-2"><i class="fas fa-key text-blue-500"></i> Deploy License</h3>
+                        <div class="space-y-5 flex-1 z-10">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-[9px] font-bold uppercase text-slate-500 block mb-2">Duration</label>
+                                    <input type="number" id="gen-val" value="1" class="w-full bg-[#050505] border border-slate-800 rounded-xl p-3.5 text-white text-sm font-mono outline-none focus:border-blue-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="text-[9px] font-bold uppercase text-slate-500 block mb-2">Time Unit</label>
+                                    <select id="gen-type" class="w-full bg-[#050505] border border-slate-800 rounded-xl p-3.5 text-white text-xs font-bold uppercase tracking-widest outline-none focus:border-blue-500 transition-colors">
+                                        <option value="hours">Hours</option>
+                                        <option value="minutes">Minutes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] font-bold uppercase text-slate-500 flex justify-between mb-2">
+                                    <span>Manual Data (Optional)</span>
+                                    <span class="text-blue-500">Kosongkan utk Auto-Gen</span>
+                                </label>
+                                <textarea id="gen-data" rows="3" placeholder="email:pass" class="w-full bg-[#050505] border border-slate-800 rounded-xl p-4 text-slate-300 text-xs font-mono outline-none focus:border-blue-500 transition-colors custom-scroll"></textarea>
+                                <p class="text-[9px] text-slate-500 mt-2 font-mono"><i class="fas fa-info-circle"></i> Jika kosong, otomatis generate 100-1000 akun random.</p>
+                            </div>
+                            <button onclick="genKey()" class="w-full btn-elite py-4 rounded-xl text-xs font-black uppercase tracking-[0.2em] mt-auto">Deploy Key</button>
+                        </div>
+                    </div>
+
+                    <div class="xl:col-span-2 glass-card p-6">
+                        <h3 class="text-white font-bold text-xs uppercase tracking-widest mb-6 flex items-center gap-2"><i class="fas fa-store text-purple-500"></i> Store Manager</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <input type="text" id="p-name" placeholder="Product Name" class="w-full bg-[#050505] border border-slate-800 rounded-xl p-4 text-xs text-white outline-none focus:border-purple-500">
+                                <input type="number" id="p-price" placeholder="Price (Rp)" class="w-full bg-[#050505] border border-slate-800 rounded-xl p-4 text-xs font-mono text-white outline-none focus:border-purple-500">
+                                <div class="flex gap-4">
+                                    <input type="text" id="p-img" placeholder="Image URL" class="w-full bg-[#050505] border border-slate-800 rounded-xl p-4 text-xs text-white outline-none focus:border-purple-500">
+                                    <select id="p-cat" class="w-1/3 bg-[#050505] border border-slate-800 rounded-xl p-4 text-[10px] font-bold uppercase text-white outline-none focus:border-purple-500">
+                                        <option>Tools</option>
+                                        <option>Scripts</option>
+                                    </select>
+                                </div>
+                                <button onclick="addProd()" class="w-full bg-purple-600/10 text-purple-500 border border-purple-500/30 hover:bg-purple-600 hover:text-white py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all">Add to Marketplace</button>
+                            </div>
+                            <div class="bg-[#050505] border border-slate-800 rounded-xl p-4 flex flex-col">
+                                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Live Catalog Preview</p>
+                                <div id="catalog-preview" class="flex-1 overflow-y-auto custom-scroll space-y-2">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 glass-card overflow-hidden flex flex-col h-[500px]">
+                        <div class="p-6 border-b border-slate-800 flex justify-between items-center shrink-0">
+                            <h3 class="text-white font-bold text-xs uppercase tracking-widest"><i class="fas fa-database text-blue-500 mr-2"></i> Active Vault Licenses</h3>
+                            <span id="key-count" class="bg-blue-600/10 text-blue-500 px-3 py-1 rounded-full font-mono text-[10px] font-bold border border-blue-500/20">0 Keys</span>
+                        </div>
+                        <div class="flex-1 overflow-y-auto custom-scroll p-0">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-[#050505] text-slate-500 uppercase font-black tracking-widest sticky top-0 z-10">
+                                    <tr>
+                                        <th class="p-4 border-b border-slate-800">License Key</th>
+                                        <th class="p-4 border-b border-slate-800">Device Bound</th>
+                                        <th class="p-4 border-b border-slate-800">Total Data</th>
+                                        <th class="p-4 border-b border-slate-800">Status</th>
+                                        <th class="p-4 border-b border-slate-800 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="key-table" class="text-slate-300 font-mono"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-1 flex flex-col gap-8 h-[500px]">
+                        <div class="glass-card flex-1 flex flex-col overflow-hidden">
+                            <h3 class="p-5 border-b border-slate-800 text-white font-bold text-xs uppercase tracking-widest flex justify-between items-center shrink-0">
+                                <span><i class="fas fa-satellite-dish text-green-500 mr-2"></i> Live Radar</span>
+                                <span id="online-total" class="text-green-500 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20">0</span>
+                            </h3>
+                            <div id="user-list" class="flex-1 overflow-y-auto custom-scroll p-4 space-y-2"></div>
+                        </div>
+                        
+                        <div class="glass-card flex-1 flex flex-col overflow-hidden relative">
+                            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-purple-600"></div>
+                            <h3 id="target-label" class="p-4 border-b border-slate-800 text-white font-bold text-[10px] uppercase tracking-widest shrink-0 truncate">Global Broadcast Terminal</h3>
+                            <div id="chat-flow" class="flex-1 overflow-y-auto custom-scroll p-4 space-y-3"></div>
+                            <div class="p-4 bg-[#050505] border-t border-slate-800 flex gap-2 shrink-0">
+                                <input type="text" id="admin-msg" class="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white outline-none focus:border-blue-500" placeholder="Execute command..." onkeypress="if(event.key==='Enter') sendAdminMsg()">
+                                <button onclick="sendAdminMsg()" class="w-10 h-10 btn-elite rounded-xl flex items-center justify-center"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-analytics" class="hidden space-y-8 animate__animated animate__fadeIn">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="glass-card p-6 border-l-4 border-l-blue-500">
+                        <p class="text-[10px] uppercase font-bold text-slate-500 tracking-widest mb-1">Total Keys Generated</p>
+                        <h4 class="text-3xl font-black text-white font-mono" id="stat-keys">0</h4>
+                    </div>
+                    <div class="glass-card p-6 border-l-4 border-l-green-500">
+                        <p class="text-[10px] uppercase font-bold text-slate-500 tracking-widest mb-1">Active Devices</p>
+                        <h4 class="text-3xl font-black text-white font-mono" id="stat-devices">0</h4>
+                    </div>
+                    <div class="glass-card p-6 border-l-4 border-l-purple-500">
+                        <p class="text-[10px] uppercase font-bold text-slate-500 tracking-widest mb-1">Products in Store</p>
+                        <h4 class="text-3xl font-black text-white font-mono" id="stat-prods">0</h4>
+                    </div>
+                    <div class="glass-card p-6 border-l-4 border-l-red-500">
+                        <p class="text-[10px] uppercase font-bold text-slate-500 tracking-widest mb-1">Total Banned</p>
+                        <h4 class="text-3xl font-black text-white font-mono" id="stat-banned">0</h4>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 h-[400px] flex flex-col">
+                    <h3 class="text-white font-bold text-xs uppercase tracking-widest mb-8">System Server Load (Simulated)</h3>
+                    <div class="flex-1 flex items-end justify-between gap-2 px-4 border-b border-slate-800 pb-4">
+                        <div class="w-full bg-slate-900 rounded-t-lg stat-bar relative group" style="height: 40%"><div class="absolute inset-0 bg-blue-500/20 group-hover:bg-blue-500/40 transition-colors"></div></div>
+                        <div class="w-full bg-slate-900 rounded-t-lg stat-bar relative group" style="height: 60%"><div class="absolute inset-0 bg-blue-500/20 group-hover:bg-blue-500/40 transition-colors"></div></div>
+                        <div class="w-full bg-slate-900 rounded-t-lg stat-bar relative group" style="height: 30%"><div class="absolute inset-0 bg-blue-500/20 group-hover:bg-blue-500/40 transition-colors"></div></div>
+                        <div class="w-full bg-slate-900 rounded-t-lg stat-bar relative group" style="height: 80%"><div class="absolute inset-0 bg-blue-500/20 group-hover:bg-blue-500/40 transition-colors"></div></div>
+                        <div class="w-full bg-blue-600 rounded-t-lg stat-bar relative shadow-[0_0_15px_rgba(37,99,235,0.5)]" style="height: 95%"></div>
+                        <div class="w-full bg-slate-900 rounded-t-lg stat-bar relative group" style="height: 50%"><div class="absolute inset-0 bg-blue-500/20 group-hover:bg-blue-500/40 transition-colors"></div></div>
+                        <div class="w-full bg-slate-900 rounded-t-lg stat-bar relative group" style="height: 70%"><div class="absolute inset-0 bg-blue-500/20 group-hover:bg-blue-500/40 transition-colors"></div></div>
+                    </div>
+                    <div class="flex justify-between text-[8px] font-mono text-slate-500 uppercase mt-4 px-4">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-settings" class="hidden glass-card p-8 animate__animated animate__fadeIn max-w-2xl">
+                <h3 class="text-white font-bold text-xs uppercase tracking-widest mb-6 border-b border-slate-800 pb-4">Security Configurations</h3>
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                        <div>
+                            <h4 class="text-sm font-bold text-white mb-1">Strict Hardware Binding</h4>
+                            <p class="text-[10px] text-slate-500">Kunci satu Key hanya untuk satu Device ID.</p>
+                        </div>
+                        <div class="w-12 h-6 bg-blue-600 rounded-full relative cursor-pointer"><div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div></div>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                        <div>
+                            <h4 class="text-sm font-bold text-white mb-1">Auto-Ban Proxy/VPN</h4>
+                            <p class="text-[10px] text-slate-500">Blokir otomatis jika IP Address terdeteksi anonim.</p>
+                        </div>
+                        <div class="w-12 h-6 bg-slate-700 rounded-full relative cursor-pointer"><div class="absolute left-1 top-1 w-4 h-4 bg-slate-400 rounded-full"></div></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getDatabase, ref, set, get, onValue, update, remove, push } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+
+        const app = initializeApp({ databaseURL: "https://kodangz-default-rtdb.firebaseio.com" });
+        const db = getDatabase(app);
+
+        // Tab Switcher
+        window.switchTab = (tab) => {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'bg-slate-900'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            
+            document.getElementById('view-dashboard').classList.add('hidden');
+            document.getElementById('view-analytics').classList.add('hidden');
+            document.getElementById('view-settings').classList.add('hidden');
+            
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            
+            const titles = { 'dashboard': 'Command Center', 'analytics': 'System Analytics', 'settings': 'System Settings' };
+            document.getElementById('page-title').innerText = titles[tab];
+        };
+
+        // Advanced Key Gen (Menit/Jam + Auto Generate 100-1000)
+        window.genKey = () => {
+            const val = parseInt(document.getElementById('gen-val').value);
+            const type = document.getElementById('gen-type').value;
+            const raw = document.getElementById('gen-data').value.trim();
+            
+            if(!val || val <= 0) return Swal.fire('Error', 'Durasi tidak valid.', 'error');
+
+            // Kalkulasi MS
+            let durationMS = type === 'hours' ? (val * 3600000) : (val * 60000);
+            const key = 'BRO-' + Math.random().toString(36).substr(2,8).toUpperCase();
+            let inbox = {};
+
+            if(raw) {
+                // Parse Manual
+                raw.split('\n').forEach((l,i) => {
+                    const [e,p] = l.split(':');
+                    if(e && p) inbox['I'+i] = { email:e.trim(), pw:p.trim(), label: 'VALT_'+Math.random().toString(36).substr(2,3).toUpperCase() };
+                });
+            } else {
+                // AUTO GENERATE 100-1000 AKUN RANDOM
+                const randomAmount = Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
+                for(let i=0; i<randomAmount; i++) {
+                    const rStr = Math.random().toString(36).substr(2,5);
+                    inbox['AUTO_'+i] = {
+                        email: `rnd_${rStr}@domain.com`,
+                        pw: `pass${Math.floor(Math.random()*9999)}`,
+                        label: 'GEN_DATA'
+                    };
+                }
+                Swal.fire({ title: 'Processing', text: `Auto-Generating ${randomAmount} Accounts...`, timer: 1000, showConfirmButton: false });
+            }
+
+            set(ref(db, `keys/${key}`), { 
+                durationMS: durationMS, 
+                status: 'ready', 
+                inbox: inbox, 
+                createdAt: Date.now(),
+                totalData: Object.keys(inbox).length
+            });
+
+            Swal.fire({
+                title: 'KEY DEPLOYED',
+                html: `<p class="text-sm">Key: <b class="text-blue-500 select-all">${key}</b></p><p class="text-xs mt-2">Duration: ${val} ${type}<br>Total Data: ${Object.keys(inbox).length} items</p>`,
+                icon: 'success', background: '#0a0a0c', color: '#fff'
+            });
+            document.getElementById('gen-data').value = '';
+        };
+
+        // Render Tables & Analytics Data
+        onValue(ref(db, 'keys'), s => {
+            const t = document.getElementById('key-table'); t.innerHTML = '';
+            let count = 0;
+            if(s.exists()) {
+                const keys = s.val(); count = Object.keys(keys).length;
+                Object.keys(keys).reverse().forEach(k => {
+                    const d = keys[k];
+                    const st = d.status === 'ready' ? '<span class="text-green-500 bg-green-500/10 px-2 py-1 rounded">READY</span>' : '<span class="text-blue-500 bg-blue-500/10 px-2 py-1 rounded">IN-USE</span>';
+                    t.innerHTML += `
+                        <tr class="hover:bg-white/5 transition-colors group">
+                            <td class="p-4 border-b border-slate-800/50 font-bold text-white">${k}</td>
+                            <td class="p-4 border-b border-slate-800/50 text-[10px] text-slate-500">${d.deviceID || 'NOT BOUND'}</td>
+                            <td class="p-4 border-b border-slate-800/50 text-blue-400 font-bold">${d.totalData || Object.keys(d.inbox||{}).length}</td>
+                            <td class="p-4 border-b border-slate-800/50 text-[9px] font-black tracking-widest">${st}</td>
+                            <td class="p-4 border-b border-slate-800/50 text-right opacity-50 group-hover:opacity-100 transition-opacity">
+                                <button onclick="removeKey('${k}')" class="w-8 h-8 bg-red-950/50 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-colors"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                        </tr>`;
+                });
+            }
+            document.getElementById('key-count').innerText = count + ' Keys';
+            document.getElementById('stat-keys').innerText = count;
+        });
+
+        window.removeKey = (k) => { Swal.fire({title:'Hapus Key?', text: k, showCancelButton: true, background: '#0a0a0c', color: '#fff'}).then(r => { if(r.isConfirmed) remove(ref(db, `keys/${k}`)); }); };
+        window.wipeAll = () => { Swal.fire({title:'WIPE DATABASE?', text: 'Semua data akan hilang permanen!', icon: 'warning', showCancelButton: true, background: '#0a0a0c', color: '#fff'}).then(r => { if(r.isConfirmed) { remove(ref(db, 'keys')); remove(ref(db, 'devices')); remove(ref(db, 'chats')); } }); };
+
+        // Devices & Tracker
+        onValue(ref(db, 'devices'), s => {
+            const list = document.getElementById('user-list'); list.innerHTML = '';
+            let on = 0; let totalDev = 0; let banned = 0;
+            if(s.exists()) {
+                const devs = s.val(); totalDev = Object.keys(devs).length;
+                Object.keys(devs).forEach(id => {
+                    const u = devs[id]; if(u.online) on++; if(u.suspend) banned++;
+                    list.innerHTML += `
+                        <div class="p-3 bg-[#050505] border border-slate-800 rounded-xl flex justify-between items-center cursor-pointer hover:border-blue-600 transition-colors" onclick="selectChat('${id}')">
+                            <div>
+                                <p class="text-[10px] font-bold text-white flex items-center gap-2"><span class="w-2 h-2 rounded-full ${u.online?'bg-green-500 shadow-[0_0_8px_#22c55e]':'bg-slate-700'}"></span> ${id}</p>
+                                <p class="text-[8px] text-slate-500 uppercase mt-1 font-mono">${u.deviceInfo || 'Unknown'}</p>
+                            </div>
+                            <button onclick="banUser('${id}', event)" class="w-8 h-8 flex items-center justify-center text-red-500 bg-red-950/30 rounded-lg hover:bg-red-600 hover:text-white transition-colors"><i class="fas fa-ban"></i></button>
+                        </div>`;
+                });
+            }
+            document.getElementById('online-total').innerText = on;
+            document.getElementById('stat-devices').innerText = totalDev;
+            document.getElementById('stat-banned').innerText = banned;
+        });
+
+        window.banUser = (id, e) => { e.stopPropagation(); Swal.fire({title: 'Banned Device?', text: id, background:'#0a0a0c', color:'#fff', showCancelButton: true}).then(r => { if(r.isConfirmed) update(ref(db, `devices/${id}`), { suspend: true }); }); };
+
+        // Chat Admin
+        let currentChat = 'global';
+        window.selectChat = (id) => {
+            currentChat = id;
+            document.getElementById('target-label').innerText = 'Terminal: ' + id;
+            document.getElementById('admin-msg').placeholder = `Kirim pesan ke ${id}...`;
+            
+            onValue(ref(db, `chats/${id}`), s => {
+                if(currentChat !== id) return;
+                const flow = document.getElementById('chat-flow'); flow.innerHTML = '';
+                if(s.exists()) {
+                    Object.values(s.val()).forEach(m => {
+                        const isAdm = m.sender === 'admin';
+                        flow.innerHTML += `<div class="flex w-full ${isAdm?'justify-end':'justify-start'}"><div class="max-w-[85%] p-3 rounded-xl text-[10px] leading-relaxed shadow-md ${isAdm?'bg-blue-600 text-white rounded-br-sm':'bg-slate-800 text-slate-200 border border-slate-700 rounded-bl-sm'}">${m.text}</div></div>`;
+                    });
+                    flow.scrollTop = flow.scrollHeight;
+                }
+            });
+        };
+
+        window.sendAdminMsg = () => {
+            const i = document.getElementById('admin-msg');
+            if(i.value.trim() && currentChat !== 'global'){ 
+                push(ref(db, `chats/${currentChat}`), {sender:'admin', text:i.value.trim(), time:Date.now()}); 
+                i.value=''; 
+            } else if (currentChat === 'global') {
+                Swal.fire('Pilih User', 'Klik salah satu user di radar untuk mulai chat.', 'info');
+            }
+        };
+
+        // Store Logic
+        window.addProd = () => {
+            const n = document.getElementById('p-name').value, p = document.getElementById('p-price').value, img = document.getElementById('p-img').value, c = document.getElementById('p-cat').value;
+            if(!n || !p) return;
+            push(ref(db, 'products'), { name:n, price:parseInt(p), image:img, category:c });
+            document.getElementById('p-name').value = ''; document.getElementById('p-price').value = ''; document.getElementById('p-img').value = '';
+        };
+
+        onValue(ref(db, 'products'), s => {
+            const list = document.getElementById('catalog-preview'); list.innerHTML = '';
+            let cp = 0;
+            if(s.exists()){
+                cp = Object.keys(s.val()).length;
+                Object.values(s.val()).forEach(p => {
+                    list.innerHTML += `
+                        <div class="flex items-center gap-3 p-2 bg-slate-900/50 rounded-lg border border-slate-800/50">
+                            <img src="${p.image}" onerror="this.src='https://via.placeholder.com/50'" class="w-10 h-10 rounded object-cover opacity-80">
+                            <div>
+                                <h5 class="text-[10px] font-bold text-white truncate max-w-[120px]">${p.name}</h5>
+                                <p class="text-[9px] text-purple-400 font-mono mt-0.5">Rp ${p.price}</p>
+                            </div>
+                        </div>`;
+                });
+            }
+            document.getElementById('stat-prods').innerText = cp;
+        });
+
+    </script>
+</body>
+</html>
